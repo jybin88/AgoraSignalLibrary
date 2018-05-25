@@ -41,7 +41,7 @@ public class LogicWorker extends Thread {
         mEngineHandler.setOnCallListener(pOnCallListener);
     }
 
-    public void setLoadEventHandler(OnAgoraLoginListener pOnAgoraLoginListener) {
+    public void setLoginEventHandler(OnAgoraLoginListener pOnAgoraLoginListener) {
         mEngineHandler.setOnAgoraLoginListener(pOnAgoraLoginListener);
     }
 
@@ -335,7 +335,7 @@ public class LogicWorker extends Thread {
      *
      * @param channelName 频道名。最大为 128 字节可见字符
      * @param callNum     呼叫的号码
-     * @param extra       其他信息。最大为 8K 字节可见字符。必须为 JSON 格式。
+     * @param extra       其他信息。最大为 8K 字节可见字符。必须为 JSON 格式
      */
     public void signalRefuse(String channelName, String callNum, String extra) {
         if (Thread.currentThread() != this) {
