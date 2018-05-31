@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date 2018/5/15 14:04
  */
 public class HttpClient {
-    private final static String BASE_URL = "http://58.220.51.52:8078/";
+    private final static String BASE_URL = "http://sfapp.linkcircle.net/";
     private Retrofit mRetrofit;
     private static HttpClient sInstance;
 
