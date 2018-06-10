@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.linkcircle.fj.agorasignal.helper.LoginHelper;
 import com.linkcircle.fj.agorasignal.inter.OnCallListener;
 import com.linkcircle.fj.agorasignal.inter.OnAgoraLoginListener;
 import com.linkcircle.fj.agorasignal.util.SignalTokenUtils;
@@ -84,8 +85,8 @@ public class LogicWorker extends Thread {
                     mWorker.signalAccept(acceptNumber[0], acceptNumber[1]);
                     break;
                 case AgoraSignalConstants.MEDIA_JOINCHANNEL:
-                    String mediaChannelname = msg.obj.toString();
-                    mWorker.mediaJoin(mediaChannelname);
+                    String mediaChannelName = msg.obj.toString();
+                    mWorker.mediaJoin(mediaChannelName);
                     break;
                 case AgoraSignalConstants.MEDIA_LEAVECHANNEL:
                     mWorker.mediaLeave();
@@ -190,10 +191,14 @@ public class LogicWorker extends Thread {
             return;
         }
 
-        long expiredTime = System.currentTimeMillis() / 1000 + 3600;
-        String token = SignalTokenUtils.calcToken(mAgoraAppId, mAgoraCertificate, account, expiredTime);
-        ensureEngineAlready();
-        mSignalEngine.login2(mAgoraAppId, account, token, 0, "", 5, 10);
+        if (SignalType.AGORA_SIGNAL.equals(LoginHelper.getLoginHelper().getSignalType())) {
+            long expiredTime = System.currentTimeMillis() / 1000 + 3600;
+            String token = SignalTokenUtils.calcToken(mAgoraAppId, mAgoraCertificate, account, expiredTime);
+            ensureEngineAlready();
+            mSignalEngine.login2(mAgoraAppId, account, token, 0, "", 5, 10);
+        } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getLoginHelper().getSignalType())) {
+
+        }
     }
 
     /**

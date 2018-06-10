@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.lfh.custom.common.util.permission.IPermissionClient;
 import com.lfh.custom.common.util.permission.PermissionUtil;
+import com.linkcircle.fj.agorasignal.SignalType;
 import com.linkcircle.fj.agorasignal.http.HttpClient;
 import com.linkcircle.fj.agorasignal.http.LoginApi;
 import com.linkcircle.fj.agorasignal.http.bean.LoginResultBean;
@@ -29,6 +30,8 @@ public class LoginHelper {
     private LoginApi mLoginApi;
     private OnLoginListener mOnLoginListener;
     private static LoginHelper sInstance;
+    @SignalType.Type
+    private String mSignalType = SignalType.AGORA_SIGNAL;//信号类型
 
     public static LoginHelper getLoginHelper() {
         if (null == sInstance) {
@@ -42,6 +45,10 @@ public class LoginHelper {
 
     public void setOnLoginListener(OnLoginListener pOnLoginListener) {
         mOnLoginListener = pOnLoginListener;
+    }
+
+    public @SignalType.Type String getSignalType() {
+        return mSignalType;
     }
 
     private LoginHelper() {
