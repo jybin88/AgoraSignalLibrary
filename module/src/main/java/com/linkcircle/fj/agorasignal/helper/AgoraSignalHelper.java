@@ -28,11 +28,11 @@ public class AgoraSignalHelper {
         return sInstance;
     }
 
+    /**
+     * @deprecated 不需要的方法
+     */
     public synchronized void startWorker() {
-        if (!mWorker.isAlive()) {
-            mWorker.start();
-            mWorker.waitForReady();
-        }
+
     }
 
     public synchronized void initWorker(Context pContext, String pAgoraAppId, String pAgoraCertificate) {
@@ -45,20 +45,8 @@ public class AgoraSignalHelper {
         return mWorker;
     }
 
-    public synchronized void deInitWorker() {
-        mWorker.exit();
-
-        try {
-            mWorker.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        mWorker = null;
-    }
-
     public synchronized void exitWorker() {
-        mWorker.exit();
+        mWorker.removeSipCallback();
         mWorker = null;
     }
 }

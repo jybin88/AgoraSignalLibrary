@@ -3,7 +3,6 @@ package com.linkcircle.fj.agorasignal.helper;
 import android.Manifest;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.lfh.custom.common.util.permission.IPermissionClient;
 import com.lfh.custom.common.util.permission.PermissionUtil;
@@ -27,13 +26,30 @@ import retrofit2.Response;
  */
 public class LoginHelper {
     private static final String TAG = "LoginHelper";
+    private static final String DOMAIN = "58.220.51.10:5030";
     private LoginApi mLoginApi;
     private OnLoginListener mOnLoginListener;
     private static LoginHelper sInstance;
     @SignalType.Type
-    private String mSignalType = SignalType.AGORA_SIGNAL;//信号类型
+    private String mSignalType = SignalType.CQT_SIGNAL;//信号类型
+    private String mPassword = "";
 
+    /**
+     * 改用方法 LoginHelper.getInstance()
+     *
+     * @deprecated 修改了方法名，弃用
+     */
     public static LoginHelper getLoginHelper() {
+        if (null == sInstance) {
+            synchronized (LoginHelper.class) {
+                sInstance = new LoginHelper();
+            }
+        }
+
+        return sInstance;
+    }
+
+    public static LoginHelper getInstance() {
         if (null == sInstance) {
             synchronized (LoginHelper.class) {
                 sInstance = new LoginHelper();
@@ -47,8 +63,17 @@ public class LoginHelper {
         mOnLoginListener = pOnLoginListener;
     }
 
-    public @SignalType.Type String getSignalType() {
+    @SignalType.Type
+    public String getSignalType() {
         return mSignalType;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public String getDomain() {
+        return DOMAIN;
     }
 
     private LoginHelper() {
@@ -75,6 +100,16 @@ public class LoginHelper {
 
                         if (null != loginResult) {
                             if (LoginResultCode.SUCCESS == loginResult.getCode()) {
+                                String result = loginResult.getResult();
+
+                                if (result.contains("_")) {
+                                    String[] arr = result.split("_");
+                                    mPassword = arr[0];
+                                    mSignalType = arr[1];
+                                } else {
+                                    mPassword = result;
+                                }
+
                                 if (null != mOnLoginListener) {
                                     mOnLoginListener.onLoginSuccess(pAccount);
                                 }

@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  * Created by Jason on 2018/6/9 10:50.
  */
 public class SignalType {
-    public static final String CQT_SIGNAL = "cqt";
-    public static final String AGORA_SIGNAL = "sw";
+    public static final String CQT_SIGNAL = "0";
+    public static final String AGORA_SIGNAL = "1";
 
     @StringDef({CQT_SIGNAL, AGORA_SIGNAL})
     @Retention(RetentionPolicy.SOURCE)

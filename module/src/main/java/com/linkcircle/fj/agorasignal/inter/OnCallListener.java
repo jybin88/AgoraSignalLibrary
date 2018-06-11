@@ -3,7 +3,7 @@ package com.linkcircle.fj.agorasignal.inter;
 import io.agora.rtc.IRtcEngineEventHandler;
 
 /**
- * 通过声网拨打电话监听
+ * 拨打电话监听
  *
  * @author lifuhai@linkcircle.cn
  * @date 2018/5/15 09:22
