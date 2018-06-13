@@ -26,7 +26,7 @@ import retrofit2.Response;
  */
 public class LoginHelper {
     private static final String TAG = "LoginHelper";
-    private static final String DOMAIN = "58.220.51.10:5030";
+    private static final String DOMAIN = "sfappcall.linkcircle.net:5040";
     private LoginApi mLoginApi;
     private OnLoginListener mOnLoginListener;
     private static LoginHelper sInstance;
