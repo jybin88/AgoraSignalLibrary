@@ -13,15 +13,9 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/hylan/maven" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-// 指定javadoc UTF-8格式
-task javadoc(type: Javadoc) {
-    options.encoding = "utf-8"
 }
