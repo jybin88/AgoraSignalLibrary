@@ -2,6 +2,7 @@ package com.linkcircle.fj.agorasignal.helper;
 
 import android.Manifest;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lfh.custom.common.util.permission.IPermissionClient;
@@ -105,7 +106,10 @@ public class LoginHelper {
                                 if (result.contains("_")) {
                                     String[] arr = result.split("_");
                                     mPassword = arr[0];
-                                    mSignalType = arr[1];
+                                    
+                                    if (!TextUtils.isEmpty(arr[1])) {
+                                        mSignalType = arr[1];
+                                    }
                                 } else {
                                     mPassword = result;
                                 }
