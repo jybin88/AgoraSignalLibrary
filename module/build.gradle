@@ -24,7 +24,7 @@ android {
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "file:///D:/work/develop/AgoraSignalLibrary")
+        repository(url: "file:///D:/maven-repo")
         pom.groupId = "com.linkcircle.fj"
         pom.artifactId = "agorasignal"
         pom.version = android.defaultConfig.versionName
