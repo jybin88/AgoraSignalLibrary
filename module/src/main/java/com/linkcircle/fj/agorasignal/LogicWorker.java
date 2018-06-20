@@ -34,8 +34,9 @@ public class LogicWorker {
 
     public LogicWorker(Context pContext, String pAgoraAppId, String pAgoraCertificate) {
         mEngineHandler = new EngineHandler();
+        mContext = pContext;
+
         if (SignalType.AGORA_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            mContext = pContext;
             mAgoraAppId = pAgoraAppId;
             mAgoraCertificate = pAgoraCertificate;
             ensureEngineAlready();
