@@ -76,6 +76,7 @@ public class LogicWorker {
                     mMediaEngine = RtcEngine.create(mContext, mAgoraAppId, mEngineHandler.mMediaEventHandler);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return;
                 }
 
                 mMediaEngine.setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION);
