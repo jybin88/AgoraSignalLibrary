@@ -106,8 +106,8 @@ public class LoginHelper {
                                 if (result.contains("_")) {
                                     String[] arr = result.split("_");
                                     mPassword = arr[0];
-                                    
-                                    if (!TextUtils.isEmpty(arr[1])) {
+
+                                    if (arr.length > 1 && !TextUtils.isEmpty(arr[1])) {//数据长度大于等于2才进行赋值
                                         mSignalType = arr[1];
                                     }
                                 } else {
