@@ -52,6 +52,11 @@ public class EngineHandler {
         @Override
         public void notifyRegState(StatusCode code, String reason, int expiration) {
             if (StatusCode.CQTSIP_SC_OK == code) {//登入成功
+                if (0 == expiration) {//退出登出
+                    mOnAgoraLoginListener.onAgoraLogout(expiration);
+                    return;
+                }
+
                 mOnAgoraLoginListener.onAgoraLoginSuccess(0, 0);
             } else {
                 if (0 == expiration) {//退出登出
