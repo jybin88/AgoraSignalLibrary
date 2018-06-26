@@ -108,7 +108,7 @@ public class LoginHelper {
                                     mPassword = arr[0];
 
                                     if (arr.length > 1 && !TextUtils.isEmpty(arr[1])) {//数据长度大于等于2才进行赋值
-                                        mSignalType = arr[1];
+                                        mSignalType = arr[1].replace(" ", "");
                                     }
                                 } else {
                                     mPassword = result;
