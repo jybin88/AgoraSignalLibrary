@@ -8,6 +8,7 @@ import com.cqtsip.linkcircle.sipphone.control.SipInitResult;
 import com.linkcircle.fj.agorasignal.helper.LoginHelper;
 import com.linkcircle.fj.agorasignal.inter.OnAgoraLoginListener;
 import com.linkcircle.fj.agorasignal.inter.OnCallListener;
+import com.linkcircle.fj.agorasignal.inter.OnSipInitListener;
 import com.linkcircle.fj.agorasignal.util.PhoneUtil;
 import com.linkcircle.fj.agorasignal.util.SignalTokenUtils;
 
@@ -31,6 +32,7 @@ public class LogicWorker {
     private String mAgoraAppId;
     private String mAgoraCertificate;
     private boolean mSipContralInitSuccess;
+    private OnSipInitListener mOnSipInitListener;
 
     public LogicWorker(Context pContext, String pAgoraAppId, String pAgoraCertificate) {
         mEngineHandler = new EngineHandler();
@@ -43,13 +45,22 @@ public class LogicWorker {
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
             SipContral.setInitResult(new SipInitResult() {
                 @Override
-                public void initResult(boolean pB) {
-                    mSipContralInitSuccess = pB;
-                    KLog.i("LogicWorker", "init sipContral" + pB);
+                public void initResult(boolean pResult) {
+                    mSipContralInitSuccess = pResult;
+
+                    if (null != mOnSipInitListener) {
+                        mOnSipInitListener.onSipInit(pResult);
+                    }
+
+                    KLog.i("LogicWorker", "init sipContral" + pResult);
                 }
             });
             SipContral.Init(pContext);
         }
+    }
+
+    public void setOnSipInitListener(OnSipInitListener pOnSipInitListener) {
+        mOnSipInitListener = pOnSipInitListener;
     }
 
     public void setCallEventHandler(OnCallListener pOnCallListener) {
@@ -104,28 +115,28 @@ public class LogicWorker {
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
             if (!mSipContralInitSuccess) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(-1);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.SIP_INIT_FAIL);
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(account)) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(-1);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.ACCOUNT_EMPTY);
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(LoginHelper.getInstance().getPassword())) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(-1);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.PASSWORD_EMPTY);
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(LoginHelper.getInstance().getDomain())) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(-1);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.DOMAIN_EMPTY);
                 }
                 return;
             }

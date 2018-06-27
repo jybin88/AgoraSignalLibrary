@@ -62,7 +62,7 @@ public class EngineHandler {
                 if (0 == expiration) {//退出登出
                     mOnAgoraLoginListener.onAgoraLogout(expiration);
                 } else {//其他情况按失败处理
-                    mOnAgoraLoginListener.onAgoraLoginFailed(expiration);
+                    mOnAgoraLoginListener.onAgoraLoginFailed(LoginFailCode.OTHER);
                 }
             }
         }
