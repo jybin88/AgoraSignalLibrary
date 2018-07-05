@@ -2,8 +2,9 @@ package com.linkcircle.fj.agorasignal;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.cqtsip.linkcircle.sipphone.control.SipContral;
+import com.cqtsip.linkcircle.sipphone.control.SipControl;
 import com.cqtsip.linkcircle.sipphone.control.SipInitResult;
 import com.linkcircle.fj.agorasignal.helper.LoginHelper;
 import com.linkcircle.fj.agorasignal.inter.OnAgoraLoginListener;
@@ -16,7 +17,6 @@ import java.util.Random;
 
 import io.agora.AgoraAPIOnlySignal;
 import io.agora.rtc.RtcEngine;
-import log.KLog;
 
 /**
  * LogicWorker
@@ -42,21 +42,23 @@ public class LogicWorker {
             mAgoraAppId = pAgoraAppId;
             mAgoraCertificate = pAgoraCertificate;
             ensureEngineAlready();
-        } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            SipContral.setInitResult(new SipInitResult() {
-                @Override
-                public void initResult(boolean pResult) {
-                    mSipContralInitSuccess = pResult;
-
-                    if (null != mOnSipInitListener) {
-                        mOnSipInitListener.onSipInit(pResult);
-                    }
-
-                    KLog.i("LogicWorker", "init sipContral" + pResult);
-                }
-            });
-            SipContral.Init(pContext);
         }
+    }
+
+    public void initSipControl() {
+        SipControl.setInitResult(new SipInitResult() {
+            @Override
+            public void initResult(boolean pResult) {
+                mSipContralInitSuccess = pResult;
+
+                if (null != mOnSipInitListener) {
+                    mOnSipInitListener.onSipInit(pResult);
+                }
+
+                Log.i("LogicWorker", "init sipContral " + pResult);
+            }
+        });
+        SipControl.Init(mContext);
     }
 
     public void setOnSipInitListener(OnSipInitListener pOnSipInitListener) {
@@ -141,7 +143,7 @@ public class LogicWorker {
                 return;
             }
 
-            SipContral.signIn(account, LoginHelper.getInstance().getPassword(), LoginHelper.getInstance().getDomain());
+            SipControl.signIn(account, LoginHelper.getInstance().getPassword(), LoginHelper.getInstance().getDomain());
         }
     }
 
@@ -154,7 +156,7 @@ public class LogicWorker {
             ensureEngineAlready();
             mSignalEngine.logout();
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            SipContral.signOut();
+            SipControl.signOut();
         }
     }
 
@@ -227,7 +229,7 @@ public class LogicWorker {
             mSignalEngine.channelInviteUser2(pChannel, pCallNum, pExtra);
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
             String phone = PhoneUtil.getPhone(pCallNum);
-            SipContral.callSip(phone);
+            SipControl.callSip(phone);
         }
     }
 
@@ -242,7 +244,7 @@ public class LogicWorker {
             ensureEngineAlready();
             mSignalEngine.channelInviteEnd(channelName, callNum, 0);
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            SipContral.hangUpCall();
+            SipControl.hangUpCall();
         }
     }
 
@@ -258,7 +260,7 @@ public class LogicWorker {
             ensureEngineAlready();
             mSignalEngine.channelInviteRefuse(channelName, callNum, 0, extra);
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            SipContral.hangUpCall();
+            SipControl.hangUpCall();
         }
     }
 
@@ -273,7 +275,7 @@ public class LogicWorker {
             ensureEngineAlready();
             mSignalEngine.channelInviteAccept(channelName, callNum, 0, "");
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
-            SipContral.acceptCall();
+            SipControl.acceptCall();
         }
     }
 

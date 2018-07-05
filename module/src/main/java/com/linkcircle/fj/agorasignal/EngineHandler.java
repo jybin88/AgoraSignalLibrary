@@ -4,8 +4,7 @@ import android.util.Log;
 
 import com.cqtsip.linkcircle.sipphone.SipCall;
 import com.cqtsip.linkcircle.sipphone.control.SipCallBack;
-import com.cqtsip.linkcircle.sipphone.control.SipContral;
-import com.linkcircle.fj.agorasignal.helper.LoginHelper;
+import com.cqtsip.linkcircle.sipphone.control.SipControl;
 import com.linkcircle.fj.agorasignal.inter.OnAgoraLoginListener;
 import com.linkcircle.fj.agorasignal.inter.OnCallListener;
 import com.linkcircle.fj.agorasignal.util.PhoneUtil;
@@ -29,7 +28,7 @@ public class EngineHandler {
 
     public void setOnAgoraLoginListener(OnAgoraLoginListener pOnAgoraLoginListener) {
         mOnAgoraLoginListener = pOnAgoraLoginListener;
-        SipContral.addSipCallBack(mSipCallBack);
+        SipControl.addSipCallBack(mSipCallBack);
     }
 
     public void setOnCallListener(OnCallListener pOnCallListener) {
@@ -45,7 +44,7 @@ public class EngineHandler {
     }
 
     public void removeSipCallback() {
-        SipContral.removeSipCallBack(mSipCallBack);
+        SipControl.removeSipCallBack(mSipCallBack);
     }
 
     private final SipCallBack mSipCallBack = new SipCallBack() {
@@ -82,10 +81,12 @@ public class EngineHandler {
                         mOnCallListener.onInviteRefusedByPeer("", phone, 0, "");
                     } else if (StatusCode.CQTSIP_SC_OK == statusCode) {//接通后挂断
                         mOnCallListener.onInviteEndByPeer("", phone, 0, "");
-                    } else if (StatusCode.PJSIP_SC_TEMPORARILY_UNAVAILABLE == statusCode) {//未接
-                        mOnCallListener.onInviteFailed("", phone, 0, -1, "");
+                    } else if (StatusCode.PJSIP_SC_TEMPORARILY_UNAVAILABLE == statusCode) {//拒接
+                        mOnCallListener.onInviteRefusedByPeer("", phone, 0, "");
                     } else if (StatusCode.PJSIP_SC_REQUEST_TERMINATED == statusCode) {//回呼后回呼方挂断
                         mOnCallListener.onInviteEndByPeer("", phone, 0, "");
+                    } else if (StatusCode.PJSIP_SC_REQUEST_TIMEOUT == statusCode) {//未接
+                        mOnCallListener.onInviteFailed("", phone, 0, -1, "");
                     }
                 }
             } catch (Exception e) {

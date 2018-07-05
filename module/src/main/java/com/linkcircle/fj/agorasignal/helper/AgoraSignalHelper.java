@@ -3,6 +3,8 @@ package com.linkcircle.fj.agorasignal.helper;
 import android.content.Context;
 
 import com.linkcircle.fj.agorasignal.LogicWorker;
+import com.linkcircle.fj.agorasignal.SignalType;
+import com.linkcircle.fj.agorasignal.inter.OnSipInitListener;
 
 /**
  * AgoraSignalHelper
@@ -35,9 +37,14 @@ public class AgoraSignalHelper {
 
     }
 
-    public synchronized void initWorker(Context pContext, String pAgoraAppId, String pAgoraCertificate) {
+    public synchronized void initWorker(Context pContext, String pAgoraAppId, String pAgoraCertificate, OnSipInitListener pOnSipInitListener) {
         if (mWorker == null) {
             mWorker = new LogicWorker(pContext.getApplicationContext(), pAgoraAppId, pAgoraCertificate);
+        }
+
+        if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
+            mWorker.setOnSipInitListener(pOnSipInitListener);
+            mWorker.initSipControl();
         }
     }
 
@@ -46,7 +53,8 @@ public class AgoraSignalHelper {
     }
 
     public synchronized void exitWorker() {
-        mWorker.removeSipCallback();
-        mWorker = null;
+        if (null != mWorker) {
+            mWorker = null;
+        }
     }
 }
