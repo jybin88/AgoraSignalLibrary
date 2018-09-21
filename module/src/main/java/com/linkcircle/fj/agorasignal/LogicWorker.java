@@ -311,4 +311,11 @@ public class LogicWorker {
             mSignalEngine.messageInstantSend(pUserName, 0, pMsg, msgId);
         }
     }
+
+    /**
+     * 释放资源
+     */
+    public void release() {
+        SipControl.release();
+    }
 }
