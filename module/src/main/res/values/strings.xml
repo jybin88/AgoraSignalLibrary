@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lcSignal_account_not_exist">分机账号不存在</string>
+    <string name="lcSignal_account_error">分机账号错误</string>
+    <string name="lcSignal_imei_not_exist">imei不存在（没有接收到imei）</string>
+    <string name="lcSignal_imei_not_exist_in_db">imei不存在(数据库未查询到imei)</string>
+    <string name="lcSignal_imei_error">imei值错误</string>
+    <string name="lcSignal_unknown_exception">未知异常</string>
+    <string name="lcSignal_obtain_imei_fail">获取不到手机imei</string>
+    <string name="lcSignal_request_fail">接口请求失败</string>
+    <string name="lcSignal_request_exception">接口请求异常</string>
+    <string name="lcSignal_json_parse_exception">json解析异常</string>
+</resources>

@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.3"
+        versionCode 3
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,12 +33,4 @@ uploadArchives {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    // Retrofit库
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    // okHttp库
-    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
-    implementation 'com.google.code.gson:gson:2.8.1'
-    compile 'com.github.jybin88:CommonUtil:1.6'
 }
