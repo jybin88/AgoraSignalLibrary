@@ -1,10 +1,7 @@
 package com.linkcircle.fj.agorasignal.api;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.linkcircle.fj.agorasignal.R;
 import com.linkcircle.fj.agorasignal.bean.LoginResultCode;
