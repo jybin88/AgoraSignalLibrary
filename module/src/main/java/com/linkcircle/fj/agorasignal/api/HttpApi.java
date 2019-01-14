@@ -25,6 +25,7 @@ final class HttpApi {
     private final static String LOGIN_URL = BASE_URL + "scrambles/logincheck";//登录地址
     private final static int CONNECT_TIMEOUT = 5 * 1000;//连接超时时间
     private final static int READ_TIMEOUT = 5 * 1000;//读取超时时间
+    private static String sLoginUrl = LOGIN_URL; //默认值
     private static HttpApi sInstance;
 
     public static HttpApi getInstance() {
@@ -37,6 +38,10 @@ final class HttpApi {
         }
 
         return sInstance;
+    }
+
+    public void setLoginUrl(String pLoginUrl) {
+        sLoginUrl = pLoginUrl;
     }
 
     /**
@@ -59,7 +64,7 @@ final class HttpApi {
 
             String param = paramBuilder.toString();
             byte[] postData = param.getBytes();// 请求的参数转换为byte数组
-            URL url = new URL(LOGIN_URL);// 新建一个URL对象
+            URL url = new URL(sLoginUrl);// 新建一个URL对象
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();// 打开一个HttpURLConnection连接
             httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);// 设置连接超时时间
             httpURLConnection.setReadTimeout(READ_TIMEOUT);// 设置从主机读取数据超时

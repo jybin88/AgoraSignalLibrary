@@ -23,7 +23,8 @@ import java.util.HashMap;
  */
 public class LoginApi {
     private static final String TAG = "LoginApi";
-    private static final String DOMAIN = "sfappcall.linkcircle.net:5030";//sip域名
+    private static final String DOMAIN = "sfappcall.linkcircle.net:5030";//sip默认域名
+    private static String sDomain = DOMAIN; //sip域名
     private static LoginApi sInstance;
     private OnLoginListener mLoginListener;
     private String mPassword;
@@ -37,6 +38,14 @@ public class LoginApi {
             }
         }
         return sInstance;
+    }
+
+    public void setDomain(String pDomain) {
+        sDomain = pDomain;
+    }
+
+    public void setLoginUrl(String pLoginUrl) {
+        HttpApi.getInstance().setLoginUrl(pLoginUrl);
     }
 
     public void setLoginListener(OnLoginListener pLoginListener) {
@@ -53,7 +62,7 @@ public class LoginApi {
     }
 
     public static String getDomain() {
-        return DOMAIN;
+        return sDomain;
     }
 
     /**
