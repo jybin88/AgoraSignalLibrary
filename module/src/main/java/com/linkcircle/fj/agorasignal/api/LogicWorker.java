@@ -71,7 +71,7 @@ class LogicWorker {
     public void signalLogin(String pAccount) {
         if (!mSipContralInitSuccess) {
             if (null != mEngineHandler.getSipLoginListener()) {
-                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.SIP_INIT_FAIL);
+                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.SIP_INIT_FAIL, "初始化失败");
                 LCSignalLog.d("sip login fail: OnSipLoginListener is null please check LCSignalApi.getInstance().setSipLoginListener(OnSipLoginListener pOnSipLoginListener) method has called");
             }
             return;
@@ -79,7 +79,7 @@ class LogicWorker {
 
         if (TextUtils.isEmpty(pAccount)) {
             if (null != mEngineHandler.getSipLoginListener()) {
-                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.ACCOUNT_EMPTY);
+                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.ACCOUNT_EMPTY, "账号为空");
                 LCSignalLog.d("sip login fail: account is empty");
             }
             return;
@@ -87,7 +87,7 @@ class LogicWorker {
 
         if (TextUtils.isEmpty(LoginApi.getInstance().getPassword())) {
             if (null != mEngineHandler.getSipLoginListener()) {
-                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.PASSWORD_EMPTY);
+                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.PASSWORD_EMPTY, "密码为空");
                 LCSignalLog.d("sip login fail: password is empty");
             }
             return;
@@ -95,7 +95,7 @@ class LogicWorker {
 
         if (TextUtils.isEmpty(LoginApi.getDomain())) {
             if (null != mEngineHandler.getSipLoginListener()) {
-                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.DOMAIN_EMPTY);
+                mEngineHandler.getSipLoginListener().onSipLoginFailed(LoginFailCode.DOMAIN_EMPTY, "域名为空");
                 LCSignalLog.d("sip login fail: domain is empty");
             }
             return;

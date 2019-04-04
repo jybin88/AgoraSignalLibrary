@@ -20,7 +20,7 @@ public interface OnSipLoginListener {
      *
      * @param pErrorCode 错误码
      */
-    void onSipLoginFailed(int pErrorCode);
+    void onSipLoginFailed(int pErrorCode, String reason);
 
     /**
      * 信令登出

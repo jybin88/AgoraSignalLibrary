@@ -3,7 +3,6 @@ package com.linkcircle.fj.agorasignal.api;
 import com.cqtsip.linkcircle.sipphone.SipCall;
 import com.cqtsip.linkcircle.sipphone.control.SipCallBack;
 import com.cqtsip.linkcircle.sipphone.control.SipControl;
-import com.linkcircle.fj.agorasignal.LoginFailCode;
 import com.linkcircle.fj.agorasignal.inter.OnCallListener;
 import com.linkcircle.fj.agorasignal.inter.OnSipLoginListener;
 import com.linkcircle.fj.agorasignal.util.PhoneUtil;
@@ -50,7 +49,7 @@ class EngineHandler {
     private final SipCallBack mSipCallBack = new SipCallBack() {
         @Override
         public void notifyRegState(pjsip_status_code code, String reason, int expiration) {
-            if (pjsip_status_code.PJSIP_SC_OK == code || pjsip_status_code.CQTSIP_SC_OK == code) {//登入成功
+            if (pjsip_status_code.PJSIP_SC_OK == code) {//登入成功
                 if (0 == expiration) {//退出登出
                     if (LOGOUT_STATE != mRegState) {
                         mRegState = LOGOUT_STATE;
@@ -71,7 +70,7 @@ class EngineHandler {
                     }
                 } else {//其他情况按失败处理
                     mRegState = LOGIN_FAIL_STATE;
-                    mOnSipLoginListener.onSipLoginFailed(LoginFailCode.OTHER);
+                    mOnSipLoginListener.onSipLoginFailed(expiration, reason);
                 }
             }
         }
@@ -90,8 +89,6 @@ class EngineHandler {
                     if (pjsip_status_code.PJSIP_SC_BUSY_HERE == statusCode) {//拒接
                         mOnCallListener.onInviteRefusedByPeer(phone, info.getAccId());
                     } else if (pjsip_status_code.PJSIP_SC_OK == statusCode) {//接通后挂断
-                        mOnCallListener.onInviteEndByPeer(phone, info.getAccId());
-                    } else if (pjsip_status_code.CQTSIP_SC_OK == statusCode) {//接通后挂断
                         mOnCallListener.onInviteEndByPeer(phone, info.getAccId());
                     } else if (pjsip_status_code.PJSIP_SC_TEMPORARILY_UNAVAILABLE == statusCode) {//拒接
                         mOnCallListener.onInviteRefusedByPeer(phone, info.getAccId());
