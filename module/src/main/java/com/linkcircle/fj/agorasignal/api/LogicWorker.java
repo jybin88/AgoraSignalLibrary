@@ -42,7 +42,7 @@ class LogicWorker {
                 LCSignalLog.d("init sip " + pResult);
             }
         });
-        SipControl.Init(mContext);
+        SipControl.init(mContext);
     }
 
     public void setOnSipInitListener(OnSipInitListener pOnSipInitListener) {

@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.4"
+        versionCode 4
+        versionName "1.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,11 +26,12 @@ uploadArchives {
     repositories.mavenDeployer {
         repository(url: "file:///D:/maven-repo")
         pom.groupId = "com.linkcircle.fj"
-        pom.artifactId = "lcsignal"
+        pom.artifactId = "agorasignal"
         pom.version = android.defaultConfig.versionName
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.itgoyo:LogToFile:v1.0'
 }
