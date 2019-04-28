@@ -10,8 +10,8 @@ import com.linkcircle.fj.agorasignal.inter.OnCallListener;
 import com.linkcircle.fj.agorasignal.util.PhoneUtil;
 
 import org.pjsip.pjsua2.CallInfo;
-import org.pjsip.pjsua2.CallStatus;
-import org.pjsip.pjsua2.StatusCode;
+import org.pjsip.pjsua2.pjsip_inv_state;
+import org.pjsip.pjsua2.pjsip_status_code;
 
 import io.agora.AgoraAPI;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -49,8 +49,8 @@ public class EngineHandler {
 
     private final SipCallBack mSipCallBack = new SipCallBack() {
         @Override
-        public void notifyRegState(StatusCode code, String reason, int expiration) {
-            if (StatusCode.CQTSIP_SC_OK == code) {//登入成功
+        public void notifyRegState(pjsip_status_code code, String reason, int expiration) {
+            if (pjsip_status_code.PJSIP_SC_OK == code) {//登入成功
                 if (0 == expiration) {//退出登出
                     mOnAgoraLoginListener.onAgoraLogout(expiration);
                     return;
@@ -61,7 +61,7 @@ public class EngineHandler {
                 if (0 == expiration) {//退出登出
                     mOnAgoraLoginListener.onAgoraLogout(expiration);
                 } else {//其他情况按失败处理
-                    mOnAgoraLoginListener.onAgoraLoginFailed(LoginFailCode.OTHER);
+                    mOnAgoraLoginListener.onAgoraLoginFailed(expiration, reason);
                 }
             }
         }
@@ -70,22 +70,22 @@ public class EngineHandler {
         public void notifyCallState(SipCall call) {
             try {
                 CallInfo info = call.getInfo();
-                CallStatus callStatus = info.getState();
-                StatusCode statusCode = info.getLastStatusCode();
+                pjsip_inv_state callStatus = info.getState();
+                pjsip_status_code statusCode = info.getLastStatusCode();
                 String phone = PhoneUtil.getPhone(info.getRemoteUri());
 
-                if (CallStatus.CALL_STATUS_CONNECTING == callStatus) {
+                if (pjsip_inv_state.PJSIP_INV_STATE_CONNECTING == callStatus) {
                     mOnCallListener.onInviteAcceptedByPeer("", phone, 0, "");
-                } else if (CallStatus.CALL_STATUS_DISCONNECTED == callStatus) {
-                    if (StatusCode.PJSIP_SC_BUSY_HERE == statusCode) {//拒接
+                } else if (pjsip_inv_state.PJSIP_INV_STATE_DISCONNECTED == callStatus) {
+                    if (pjsip_status_code.PJSIP_SC_BUSY_HERE == statusCode) {//拒接
                         mOnCallListener.onInviteRefusedByPeer("", phone, 0, "");
-                    } else if (StatusCode.CQTSIP_SC_OK == statusCode) {//接通后挂断
+                    } else if (pjsip_status_code.PJSIP_SC_OK == statusCode) {//接通后挂断
                         mOnCallListener.onInviteEndByPeer("", phone, 0, "");
-                    } else if (StatusCode.PJSIP_SC_TEMPORARILY_UNAVAILABLE == statusCode) {//拒接
+                    } else if (pjsip_status_code.PJSIP_SC_TEMPORARILY_UNAVAILABLE == statusCode) {//拒接
                         mOnCallListener.onInviteRefusedByPeer("", phone, 0, "");
-                    } else if (StatusCode.PJSIP_SC_REQUEST_TERMINATED == statusCode) {//回呼后回呼方挂断
+                    } else if (pjsip_status_code.PJSIP_SC_REQUEST_TERMINATED == statusCode) {//回呼后回呼方挂断
                         mOnCallListener.onInviteEndByPeer("", phone, 0, "");
-                    } else if (StatusCode.PJSIP_SC_REQUEST_TIMEOUT == statusCode) {//未接
+                    } else if (pjsip_status_code.PJSIP_SC_REQUEST_TIMEOUT == statusCode) {//未接
                         mOnCallListener.onInviteFailed("", phone, 0, -1, "");
                     }
                 }
@@ -98,10 +98,10 @@ public class EngineHandler {
         public void notifyIncomingCall(SipCall call) {
             try {
                 CallInfo info = call.getInfo();
-                CallStatus callStatus = info.getState();
+                pjsip_inv_state callStatus = info.getState();
                 String phone = PhoneUtil.getPhone(info.getRemoteUri());
 
-                if (CallStatus.CALL_STATUS_INCOMING == callStatus) {//回呼
+                if (pjsip_inv_state.PJSIP_INV_STATE_INCOMING == callStatus) {//回呼
                     mOnCallListener.onInviteReceived("", phone, 0, "");
                 }
             } catch (Exception e) {
@@ -169,7 +169,7 @@ public class EngineHandler {
         @Override
         public void onLoginFailed(int ecode) {
             super.onLoginFailed(ecode);
-            mOnAgoraLoginListener.onAgoraLoginFailed(ecode);
+            mOnAgoraLoginListener.onAgoraLoginFailed(ecode, "login fail");
         }
 
         @Override

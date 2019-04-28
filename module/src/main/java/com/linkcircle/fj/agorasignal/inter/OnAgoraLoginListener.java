@@ -18,9 +18,10 @@ public interface OnAgoraLoginListener {
     /**
      * 信令登录失败
      *
-     * @param pErrorCode 错误码
+     * @param pErrorCode   错误码
+     * @param pErrorReason 错误原因
      */
-    void onAgoraLoginFailed(int pErrorCode);
+    void onAgoraLoginFailed(int pErrorCode, String pErrorReason);
 
     /**
      * 信令登出

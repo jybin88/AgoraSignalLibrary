@@ -58,7 +58,7 @@ public class LogicWorker {
                 Log.i("LogicWorker", "init sipContral " + pResult);
             }
         });
-        SipControl.Init(mContext);
+        SipControl.init(mContext);
     }
 
     public void setOnSipInitListener(OnSipInitListener pOnSipInitListener) {
@@ -117,28 +117,28 @@ public class LogicWorker {
         } else if (SignalType.CQT_SIGNAL.equals(LoginHelper.getInstance().getSignalType())) {
             if (!mSipContralInitSuccess) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.SIP_INIT_FAIL);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.SIP_INIT_FAIL, "sip初始化失败");
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(account)) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.ACCOUNT_EMPTY);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.ACCOUNT_EMPTY, "账号为空");
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(LoginHelper.getInstance().getPassword())) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.PASSWORD_EMPTY);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.PASSWORD_EMPTY, " 密码为空");
                 }
                 return;
             }
 
             if (TextUtils.isEmpty(LoginHelper.getInstance().getDomain())) {
                 if (null != mEngineHandler.getAgoraLoginListener()) {
-                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.DOMAIN_EMPTY);
+                    mEngineHandler.getAgoraLoginListener().onAgoraLoginFailed(LoginFailCode.DOMAIN_EMPTY, "域名为空");
                 }
                 return;
             }
