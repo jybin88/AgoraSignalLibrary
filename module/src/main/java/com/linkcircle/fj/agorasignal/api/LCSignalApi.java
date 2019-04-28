@@ -5,6 +5,7 @@ import android.content.Context;
 import com.linkcircle.fj.agorasignal.inter.OnCallListener;
 import com.linkcircle.fj.agorasignal.inter.OnSipInitListener;
 import com.linkcircle.fj.agorasignal.inter.OnSipLoginListener;
+import com.linkcircle.fj.agorasignal.util.LogToFileUtils;
 
 /**
  * AgoraSignalHelper
@@ -32,6 +33,8 @@ public class LCSignalApi extends BaseSignalApi {
 
     @Override
     public synchronized void init(Context pContext, OnSipInitListener pOnSipInitListener) {
+        LogToFileUtils.init(pContext);
+
         if (mWorker == null) {
             mWorker = new LogicWorker(pContext.getApplicationContext());
         }

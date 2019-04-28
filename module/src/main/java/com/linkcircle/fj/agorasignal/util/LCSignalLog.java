@@ -2,7 +2,6 @@ package com.linkcircle.fj.agorasignal.util;
 
 import android.util.Log;
 
-import com.itgoyo.logtofilelibrary.LogToFileUtils;
 import com.linkcircle.fj.agorasignal.LCSignalConfig;
 
 /**

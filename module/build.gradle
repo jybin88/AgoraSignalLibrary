@@ -33,5 +33,4 @@ uploadArchives {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.github.itgoyo:LogToFile:v1.0'
 }
