@@ -23,8 +23,4 @@ public class LoginFailCode {
      * 域名为空
      */
     public static final int DOMAIN_EMPTY = 2;
-    /**
-     * 其他错误
-     */
-    public static final int OTHER = 3;
 }
